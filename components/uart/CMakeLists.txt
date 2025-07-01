@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "uartManager.c"
+    SRCS "uartProcess.c" "uartManager.c"
     INCLUDE_DIRS "include"
-    REQUIRES driver
+    REQUIRES driver cmds esp_event app_update
 )

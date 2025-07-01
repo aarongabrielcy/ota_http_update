@@ -3,6 +3,6 @@
 
 void app_main(void) {
     power_init();
-    uart_init();
+    uarts_init();
     uartManager_start();
 }
