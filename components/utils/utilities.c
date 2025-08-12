@@ -1,13 +1,13 @@
-#include "tpcmdProcessing.h"
+#include "utilities.h"
 #include "freertos/FreeRTOS.h"
-#include <string.h>
 #include "esp_log.h"
+#include <string.h>
 #include <ctype.h>
 #include "otaUpdate.h"
 
-#define TAG "COMMAND PROCESS"
+#define TAG "UTILITIES"
 
-char *proccessCLOP(const char *data) {
+char *cfgApn(const char *data) {
     char command[99];
     snprintf(command, sizeof(command), "AT+CGDCONT=1,\"IP\",\"%s\"", data);
     ESP_LOGI(TAG, "Comando AT: %s\n", command);
@@ -17,7 +17,7 @@ char *proccessCLOP(const char *data) {
         return "ERROR";
     }
 }
-char *processSVPT(const char *data) {
+char *cfgServer(const char *data) {
     char server[32];  // Almacena la IP
     char port[6];     // Almacena el puerto (máximo 5 dígitos + terminador)
 
@@ -48,14 +48,14 @@ char *processSVPT(const char *data) {
    return "NA";    
 }
 
-char * resetDevice(const char *value) {
+char * rstDevice(const char *value) {
     if(atoi(value) == 1 ) { ///////// cambia el 1 por una contraseña (pass_reset)
         return "RST";
     }
     else { return "ERR"; }
 }
 
-char* processPassword(const char *password) {
+char* createPassWifi(const char *password) {
 
     if (strlen(password) < 8) {
         return "Error: Password must be at least 8 characters long";
@@ -86,10 +86,9 @@ char* processPassword(const char *password) {
     //linkzero234.
 }
 
-char* processUpdate(const char *value) {
+char* updateFwOta(const char *value) {
     //agregar validaciones
-    //update_start(value);
-    //ota_uart_sim7600_start();
-    
-    return "Ok";
+    //update_start();
+    ota_uart_sim7600_start();
+    return "ERR";
 }

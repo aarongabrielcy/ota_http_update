@@ -1,5 +1,5 @@
 idf_component_register(
-    SRCS "tpcmdManager.c" "tpcmdProcessing.c"
+    SRCS "utilities.c" "parse.c" "format.c"
     INCLUDE_DIRS "include"
     REQUIRES fwr
 )

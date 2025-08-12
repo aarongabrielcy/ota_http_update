@@ -11,7 +11,6 @@
 
 #define SERIAL_DEBUG true 
 
-#define BUF_SIZE_OTA (1024)
+//#define BUF_SIZE_OTA (1024)
 
-void uarts_init();
-void uartManager_start();
+void uartSim_start();

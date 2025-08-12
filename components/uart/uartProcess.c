@@ -4,7 +4,7 @@
 #include "driver/uart.h"
 #include "esp_log.h"
 #include <string.h>
-#include "tpcmdManager.h"
+//#include "cmdProcess.h"
 
 static const char *TAG = "UART_process";
 
@@ -39,27 +39,12 @@ void uartSim_task(void *arg) {
     }
 }
 
-void serialConsole_task(void *arg) {
-    uint8_t data[BUF_SIZE_SER];
-    while (1) {
-        int len = uart_read_bytes(UART_SER, data, BUF_SIZE_SER - 1, pdMS_TO_TICKS(100));
-        if (len > 0) {
-            data[len] = '\0'; // Convertir a string
-            if (strncmp((char*)data, "AT", 2) == 0 && SERIAL_DEBUG) {
-                uartManager_sendCommand((char*)data);
-            } else {
-                ESP_LOGI(TAG,"%s",readCmd((char*)data));                
-            }
-        }
-        vTaskDelay(pdMS_TO_TICKS(100));
-    }
-}
 
 int uartManager_readBinary(uint8_t *buffer, int max_length, int timeout_ms) {
     return uart_read_bytes(UART_SIM, buffer, max_length, pdMS_TO_TICKS(timeout_ms));
 }
 
-void uartManager_sendCommand(const char *command) {
+void uartProcess_sendCommand(const char *command) {
     uart_write_bytes(UART_SIM, command, strlen(command));
     uart_write_bytes(UART_SIM, "\r\n", 2);
 }
@@ -71,7 +56,7 @@ int uartManager_readEvent(char *buffer, int max_length, int timeout_ms) {
     return len;
 }
 
-esp_err_t download_firmware_via_uart(esp_ota_handle_t update_handle) {
+/*esp_err_t download_firmware_via_uart(esp_ota_handle_t update_handle) {
     uint8_t data[BUF_SIZE_OTA];
     int len;
 
@@ -92,4 +77,4 @@ esp_err_t download_firmware_via_uart(esp_ota_handle_t update_handle) {
     }
 
     return ESP_OK;
-}
+}*/

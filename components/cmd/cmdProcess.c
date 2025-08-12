@@ -1,11 +1,11 @@
-#include "tpcmdManager.h"
+#include "cmdProcess.h"
 #include "freertos/FreeRTOS.h"
 #include <string.h>
 #include "esp_log.h"
 #include <ctype.h>
-#include "tpcmdProcessing.h"
+#include "utilities.h"
 
-#define TAG "COMMAND MANAGER"
+#define TAG "COMMAND PROCESS"
 
 char id[20];
 char ccid[25];
@@ -135,11 +135,11 @@ int validateCommand(const char *input, ParsedCommand *parsed) {
 char *cmdAction(ParsedCommand *parsed) {
     switch (parsed->number) {
         case SVPT:
-            return processSVPT(parsed->value);
+            return cfgServer(parsed->value);
         case CLOP:
-            return proccessCLOP(parsed->value);
+            return cfgApn(parsed->value);
         case MRST:
-            return resetDevice(parsed->value);
+            return rstDevice(parsed->value);
         case OPCT:
         /*if(atoi(parsed->value) == 1 ) {
              if(outputControl(OUTPUT1_PIN, atoi(parsed->value)) ) {
@@ -160,7 +160,7 @@ char *cmdAction(ParsedCommand *parsed) {
                 }
             } else {return "NOT FOUND";}*/ 
         case PDWF:
-            char * response = processPassword(parsed->value);
+            char * response = createPassWifi(parsed->value);
 
             if (strncmp(response, "save", 4) == 0) {
                 //nvs_save_str("password_wifi", parsed->value);
@@ -217,7 +217,7 @@ char *cmdAction(ParsedCommand *parsed) {
             return "OK";
         case FWUP:
 
-        return processUpdate(parsed->value);
+        return updateFwOta(parsed->value);
         default:
             return "CMD ACTION NOT FOUND";
     }
