@@ -89,6 +89,10 @@ char* createPassWifi(const char *password) {
 char* updateFwOta(const char *value) {
     //agregar validaciones
     //update_start();
-    ota_uart_sim7600_start();
-    return "ERR";
+    ESP_LOGI(TAG, "FW VALUE:%s", value);
+    // Llama a este API con tus URLs absolutas
+    //  - bin_url:  URL del .bin (http o https)
+    //  - md5_url:  URL del .md5 (primers 32 hex del hash; se ignorará texto extra)
+    esp_err_t ota_uart_sim7600_start();
+    return "ERRUP";
 }

@@ -2,7 +2,7 @@
 pytest_hello_world.py
 hello_world_main.c
 
-# 🚀 Ignorar archivos generados por la compilación
+#Ignorar archivos generados por la compilación
 build/
 sdkconfig
 sdkconfig.old
@@ -11,24 +11,24 @@ config/
 *.bin
 *.map
 
-# 🚀 Ignorar dependencias y cache de CMake
+#Ignorar dependencias y cache de CMake
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
 Makefile
 
-# 🚀 Ignorar archivos temporales del sistema y de editores de código
+#Ignorar archivos temporales del sistema y de editores de código
 .vscode/
 *.swp
 *.swo
 *.DS_Store
 *.log
 
-# 🚀 Ignorar archivos de pruebas unitarias (si los generas)
+#Ignorar archivos de pruebas unitarias (si los generas)
 tests/build/
 tests/results/
 
-# 🚀 Ignorar archivos específicos de PlatformIO (si lo usas en paralelo)
+#Ignorar archivos específicos de PlatformIO (si lo usas en paralelo)
 .pio/
 *.d
 *.o

@@ -7,5 +7,7 @@ idf_component_register(
         app_update
         esp_system 
         esp_partition
-        esp_event 
+        esp_event
+        mbedtls
+        esp_timer
 )
