@@ -6,4 +6,5 @@ idf_component_register(
         driver
         esp_event
         app_update
+        fwr
 )

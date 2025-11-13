@@ -93,6 +93,8 @@ char* updateFwOta(const char *value) {
     // Llama a este API con tus URLs absolutas
     //  - bin_url:  URL del .bin (http o https)
     //  - md5_url:  URL del .md5 (primers 32 hex del hash; se ignorará texto extra)
-    esp_err_t ota_uart_sim7600_start();
+    
+    esp_err_t res = ota_uart_sim7600_start();
+    
     return "ERRUP";
 }
