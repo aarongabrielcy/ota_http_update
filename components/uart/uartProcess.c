@@ -11,6 +11,8 @@
 
 static const char *TAG = "UART_process";
 static uart_state_t uart_state = UART_STATE_IDLE; 
+const char *pattern_data = "+HTTPREAD: DATA,";
+const char *pattern_fin  = "+HTTPREAD: 0";
 
 void uartSim_task(void *arg) {
     char response[256];
@@ -75,14 +77,13 @@ void uartSim_task(void *arg) {
                 uint8_t *parse_start = buf;
 
                 if (ok_pos) {
-                    parse_start = (uint8_t *)(ok_pos + 4); // Saltar eco "AT+HTTPREAD=1024\r\r\nOK"
-                    ESP_LOGI(TAG, "Cabecera 'AT+HTTPREAD=1024' detectada, saltando eco inicial");
+                    // Saltar eco "AT+HTTPREAD=1024\r\r\nOK"
+                    // El eco termina justo antes de "\r\nOK"
+                    // Ajustar el puntero de inicio de parseo
+                    parse_start = (uint8_t *)(ok_pos + 4); 
                 }
 
-
                 // Buscar cabecera +HTTPREAD: DATA,xxxx
-                const char *pattern_data = "+HTTPREAD: DATA,";
-                const char *pattern_fin  = "+HTTPREAD: 0";
                 int data_len = -1;
                 char *data_start = strstr((char *)buf, pattern_data);
                 char *fin_start  = strstr((char *)buf, pattern_fin);
@@ -121,6 +122,8 @@ void uartSim_task(void *arg) {
                             ESP_LOGI(TAG, "Bloque HTTPREAD detectado => %d bytes binarios en offset %d", bin_len, bin_offset);
                             uint8_t *chunk_ptr = buf + bin_offset;
                             ESP_LOG_BUFFER_HEX(TAG, buf + bin_offset, bin_len);
+                            // Escribir chunk en OTA
+                            // chunk_ptr apunta al inicio del binario
                             esp_err_t err = ota_writeChunk(chunk_ptr, bin_len);
                             if(err != ESP_OK){
                                 ESP_LOGI(TAG, "Error en el OTA %s", esp_err_to_name(err));
@@ -135,7 +138,6 @@ void uartSim_task(void *arg) {
                 } else {
                     ESP_LOGW(TAG, "No se detectó cabecera +HTTPREAD válida en este bloque");
                 }
-                
             } else {
                 ESP_LOGI(TAG, "FIN DE DATOS OTA");
                 setUart_state(UART_STATE_IDLE);
