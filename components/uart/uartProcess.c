@@ -68,7 +68,7 @@ void uartSim_task(void *arg) {
                     setUart_state(UART_STATE_IDLE);
                     break;
                 }
-                ESP_LOG_BUFFER_HEX("CADENA COMPLETA", buf, len);
+                //ESP_LOG_BUFFER_HEX("CADENA COMPLETA", buf, len);
                 memcpy(buf_anterior, data_ptr, BUF_SIZE_OTA);
                 
                 char *ok_pos = strstr((char *)buf, "\r\nOK");
